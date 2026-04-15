@@ -14,18 +14,8 @@ This project transforms LiDAR point clouds into the camera coordinate frame and 
 
 ```text
 data/
-  kitti/
-    calib.json
-    images/
-    masks/
-    pc/
-    processed_masks/
-  nuscenes/
-    calib.json
-    images/
-    masks/
-    pc/
-    processed_masks/
+  images/
+  pcd/
 outputs/
 scripts/
   config.yaml
