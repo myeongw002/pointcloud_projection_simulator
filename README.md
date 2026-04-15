@@ -1,12 +1,12 @@
 # Projection Simulation
 
-LiDAR 포인트 클라우드를 카메라 좌표계로 변환한 뒤, 서로 다른 초점거리(focal length) 조건에서 이미지 평면에 투영해 비교하는 프로젝트입니다. 또한 Open3D를 이용해 카메라 frustum과 포인트 클라우드를 3D로 함께 확인할 수 있습니다.
+This project transforms LiDAR point clouds into the camera coordinate frame and compares how they are projected onto the image plane under different focal lengths. It also provides 3D visualization of camera frustums and point clouds using Open3D.
 
-## 결과 예시
+## Example Results
 
-### 2D 투영 결과
+### 2D Projection Results
 
-아래 이미지는 서로 다른 초점거리에서 같은 포인트 클라우드를 이미지 평면에 투영한 예시입니다.
+The images below show projections of the same point cloud with different focal lengths.
 
 ![fx=700, fy=700](doc/projection_fx_700.0_fy_700.0.png)
 
@@ -16,21 +16,21 @@ LiDAR 포인트 클라우드를 카메라 좌표계로 변환한 뒤, 서로 다
 
 ![fx=1300, fy=1300](doc/projection_fx_1300.0_fy_1300.0.png)
 
-### 3D frustum 비교
+### 3D Frustum Comparison
 
-Open3D에서 카메라 frustum과 포인트 클라우드를 함께 확인한 예시입니다.
+Example view of camera frustums and a point cloud in Open3D.
 
 ![Open3D frustum comparison](doc/fov_compare.png)
 
-## 주요 기능
+## Key Features
 
-- 다양한 `fx`, `fy` 조합에 대한 투영 결과를 한 번에 비교
-- 이미지 배경 위에 포인트 투영 결과 시각화
-- Open3D 기반 3D frustum 시각화
-- `npy`, `kitti_bin`, `pcd` 포인트 클라우드 입력 지원
-- YAML 또는 JSON 설정 파일 지원
+- Compare projection results for multiple `fx`, `fy` combinations in one run
+- Visualize projected points on top of an image background
+- Visualize 3D frustums with Open3D
+- Support point cloud inputs in `npy`, `kitti_bin`, and `pcd` formats
+- Support YAML and JSON configuration files
 
-## 프로젝트 구조
+## Project Structure
 
 ```text
 data/
@@ -53,113 +53,113 @@ scripts/
   projection.py
 ```
 
-## 요구 사항
+## Requirements
 
-- Python 3.10 이상 권장
+- Python 3.10 or newer recommended
 - NumPy
 - OpenCV (`opencv-python`)
 - Matplotlib
 - Open3D
 - PyYAML
 
-### 설치 예시
+### Install Example
 
 ```bash
 pip install numpy opencv-python matplotlib open3d pyyaml
 ```
 
-## 실행 방법
+## How To Run
 
-### 1. 2D 투영 비교
+### 1. 2D Projection Comparison
 
-`scripts/projection.py`는 여러 초점거리에서 같은 포인트 클라우드를 이미지 평면에 투영한 결과를 저장하고 화면에 표시합니다.
+`scripts/projection.py` projects the same point cloud with multiple focal lengths, shows the results, and saves them.
 
 ```bash
 python scripts/projection.py --config scripts/config.yaml
 ```
 
-설정의 `experiment.save_path`가 파일 경로라면, 같은 이름의 폴더를 만들어 각 초점거리별 이미지를 저장합니다. 예를 들어 `./outputs/focal_experiment.png`를 사용하면 `./outputs/focal_experiment/` 아래에 개별 결과가 저장됩니다.
+If `experiment.save_path` is a file path, the script creates a folder with the same stem and saves one image per focal length. For example, using `./outputs/focal_experiment.png` creates and saves outputs under `./outputs/focal_experiment/`.
 
-### 2. 3D frustum 비교
+### 2. 3D Frustum Comparison
 
-`scripts/fov_compare.py`는 Open3D 창에서 포인트 클라우드와 카메라 frustum을 함께 보여줍니다.
+`scripts/fov_compare.py` opens an Open3D window to visualize point clouds and camera frustums together.
 
 ```bash
 python scripts/fov_compare.py --config scripts/config.yaml
 ```
 
-## 설정 파일
+## Configuration
 
-예시 설정은 `scripts/config.yaml`에 있습니다. 주요 항목은 다음과 같습니다.
+An example configuration is provided at `scripts/config.yaml`. Main sections are:
 
 ### `io`
 
-- `points_path`: 입력 포인트 클라우드 파일 경로
-- `points_format`: `npy`, `kitti_bin`, `pcd` 중 하나
-- `image_path`: 배경 이미지 경로
+- `points_path`: input point cloud file path
+- `points_format`: one of `npy`, `kitti_bin`, `pcd`
+- `image_path`: background image path
 
 ### `camera`
 
-- `width`, `height`: 이미지 해상도
-- `cx`, `cy`: 주점(principal point)
+- `width`, `height`: image resolution
+- `cx`, `cy`: principal point
 
 ### `experiment`
 
-- `fx_list`: 비교할 초점거리 목록
-- `fy_list`: `fy`를 따로 지정할 때 사용, 미지정 시 `fx_list`를 그대로 사용
-- `min_depth`: 투영에서 제외할 최소 깊이
-- `max_points`: 사용 포인트 개수 상한
-- `point_size`: 렌더링 점 크기
-- `save_path`: 저장 경로
-- `use_image_background`: 배경 이미지 사용 여부
+- `fx_list`: focal lengths to compare
+- `fy_list`: optional list for `fy`; if omitted, `fx_list` is reused
+- `min_depth`: minimum depth threshold for projection
+- `max_points`: maximum number of points to use
+- `point_size`: rendered point size
+- `save_path`: output path
+- `use_image_background`: whether to use the image as background
 
 ### `transform`
 
-- `T_cam_lidar`: LiDAR 좌표계를 카메라 좌표계로 바꾸는 4x4 변환 행렬
+- `T_cam_lidar`: 4x4 transform from LiDAR frame to camera frame
 
 ### `open3d`
 
-- `point_size`: Open3D 점 크기
-- `frustum_depth`: frustum 길이
-- `show_coordinate_frame`: 좌표축 표시 여부
-- `show_camera_frame`: 카메라 프레임 표시 여부
-- `add_camera_centers`: 카메라 중심 구체 표시 여부
-- `background_color`: 배경색 `[r, g, b]`
+- `point_size`: Open3D point size
+- `frustum_depth`: frustum depth
+- `show_coordinate_frame`: show world coordinate frame
+- `show_camera_frame`: show camera frame
+- `add_camera_centers`: show camera center spheres
+- `background_color`: background color as `[r, g, b]`
 
-## 데이터 형식
+## Data Formats
 
 ### `npy`
 
 - shape: `[N, >=3]`
-- 앞의 3개 컬럼을 `x, y, z`로 사용
+- first three columns are used as `x, y, z`
 
 ### `kitti_bin`
 
-- KITTI 형식의 `float32` 바이너리
-- 내부적으로 `N x 4`로 읽은 뒤 앞의 3개 컬럼만 사용
+- KITTI-style `float32` binary
+- loaded as `N x 4`, and only the first three columns are used
 
 ### `pcd`
 
-- Open3D가 읽을 수 있는 `.pcd` 파일
+- `.pcd` files readable by Open3D
 
-## 변환 행렬 의미
+## Transform Convention
 
-이 프로젝트는 `T_cam_lidar`를 사용합니다. 즉, LiDAR 점 `p_lidar`를 카메라 좌표계 점 `p_cam`으로 바꿀 때 다음 형태를 사용합니다.
+This project uses `T_cam_lidar`. In other words, a LiDAR point `p_lidar` is transformed to a camera-frame point `p_cam` as:
 
 ```text
 p_cam = T_cam_lidar * p_lidar
 ```
 
-`fov_compare.py`에서는 내부적으로 역행렬을 사용해 frustum을 LiDAR 좌표계에 배치합니다.
+In `fov_compare.py`, the inverse transform is used internally to place frustums in the LiDAR frame.
 
-## 출력
+## Output
 
-- 2D 투영 결과: `outputs/` 하위에 저장
-- Open3D 시각화: 별도 창으로 표시
+- 2D projection results: saved under `outputs/`
+- Open3D visualization: displayed in a separate window
 
-기본 설정 예시는 `scripts/config.yaml`을 참고하면 됩니다. 현재 저장 경로는 `./outputs/focal_experiment.png`로 되어 있으며, 실행 시 초점거리별 결과가 같은 이름의 폴더에 저장됩니다.
+See `scripts/config.yaml` for the default example settings. The current save path is `./outputs/focal_experiment.png`, and per-focal-length images are stored in a folder with the same stem.
 
-## 사용 예시
+## Example Config
 
 ```yaml
 io:
@@ -182,12 +182,12 @@ experiment:
   use_image_background: false
 ```
 
-## 문제 해결
+## Troubleshooting
 
-- `PyYAML`이 없다는 오류가 나오면 `pip install pyyaml`을 설치하세요.
-- `.pcd` 파일을 읽지 못하면 `open3d` 설치 여부와 파일 경로를 확인하세요.
-- 투영 결과가 비어 있으면 `T_cam_lidar`, `min_depth`, 입력 포인트 좌표계를 점검하세요.
+- If you see a missing `PyYAML` error, install it with `pip install pyyaml`.
+- If `.pcd` loading fails, verify Open3D installation and file paths.
+- If projection results are empty, check `T_cam_lidar`, `min_depth`, and the input point cloud coordinate frame.
 
-## 라이선스
+## License
 
-이 저장소에 별도 라이선스 파일이 없으면, 사용 전에 프로젝트 소유자에게 배포 및 재사용 범위를 확인하는 것이 좋습니다.
+If no license file is included in this repository, please confirm redistribution and reuse terms with the project owner before use.
