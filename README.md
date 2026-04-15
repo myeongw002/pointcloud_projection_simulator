@@ -2,26 +2,6 @@
 
 This project transforms LiDAR point clouds into the camera coordinate frame and compares how they are projected onto the image plane under different focal lengths. It also provides 3D visualization of camera frustums and point clouds using Open3D.
 
-## Example Results
-
-### 2D Projection Results
-
-The images below show projections of the same point cloud with different focal lengths.
-
-![fx=700, fy=700](doc/projection_fx_700.0_fy_700.0.png)
-
-![fx=900, fy=900](doc/projection_fx_900.0_fy_900.0.png)
-
-![fx=1100, fy=1100](doc/projection_fx_1100.0_fy_1100.0.png)
-
-![fx=1300, fy=1300](doc/projection_fx_1300.0_fy_1300.0.png)
-
-### 3D Frustum Comparison
-
-Example view of camera frustums and a point cloud in Open3D.
-
-![Open3D frustum comparison](doc/fov_compare.png)
-
 ## Key Features
 
 - Compare projection results for multiple `fx`, `fy` combinations in one run
@@ -181,6 +161,25 @@ experiment:
   save_path: "./outputs/focal_experiment.png"
   use_image_background: false
 ```
+## Example Results
+
+### 2D Projection Results
+
+The images below show projections of the same point cloud with different focal lengths.
+
+![fx=700, fy=700](doc/projection_fx_700.0_fy_700.0.png)
+
+![fx=900, fy=900](doc/projection_fx_900.0_fy_900.0.png)
+
+![fx=1100, fy=1100](doc/projection_fx_1100.0_fy_1100.0.png)
+
+![fx=1300, fy=1300](doc/projection_fx_1300.0_fy_1300.0.png)
+
+### 3D Frustum Comparison
+
+Example view of camera frustums and a point cloud in Open3D.
+
+![Open3D frustum comparison](doc/fov_compare.png)
 
 ## Troubleshooting
 
